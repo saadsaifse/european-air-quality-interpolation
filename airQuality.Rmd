@@ -2,11 +2,20 @@
 title: "Air Quality Interpolation"
 author: "Saad Saif"
 date: "12/7/2019"
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+output:
+  github_document:
+    pandoc_args: --webtex
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "../plots/airquality-")
 ```
 
 ## Getting Nearby Stations
@@ -15,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(sf)
 radius = 150000 # Define radius to get stations in
 pointLngLat = c(7.6, 52) # Define Longitude and Latitude of the desired point
-stations = read.csv("AirBase_v8_stations.csv", sep = "\t", stringsAsFactors = FALSE)
+stations = read.csv("data/AirBase_v8_stations.csv", sep = "\t", stringsAsFactors = FALSE)
 stations.sf = st_as_sf(stations, coords = c("station_longitude_deg", "station_latitude_deg"), crs = 4326)
 point.sfc = st_sfc(st_point(pointLngLat), crs = 4326) # Center point with 4326 EPSG
 distances = st_distance(stations.sf, point.sfc) # All distances from the stations
@@ -124,7 +133,7 @@ for (i in c(1:(length(stationsInRadius[[1]])))){
 Read Files
 
 ```{r}
-files = list.files(".", pattern = "DE_5*", full.names = TRUE)
+files = list.files("data", pattern = "DE_5*", full.names = TRUE)
 data = lapply(files, function(x)read.csv(x, fileEncoding = "UTF-16", header = TRUE, sep = ","))
 print(paste0("Number of files read: ", length(files)))
 ```
@@ -166,7 +175,7 @@ Filter urban stations
 
 ```{r}
 library(tidyverse)
-read.csv("AirBase_v8_stations.csv", sep = "\t", stringsAsFactors = FALSE) %>%
+read.csv("data/AirBase_v8_stations.csv", sep = "\t", stringsAsFactors = FALSE) %>%
   as_tibble %>% 
   filter(station_type_of_area == "urban", type_of_station == "Background") -> backgroundAndUrban
 
