@@ -7,3 +7,7 @@ European environmental agency, EEA, collects the air quality sensor data and dis
 The `R` script in the directory can auto-download the air quality data from the nearest stations within a user defined radius. For that, the stations data is read from `AirBase_v8_stations.csv` in the `data` folder. 
 
 After getting the data, it them pre-processes before interpolating the results. See the comments in the code for more details
+
+## Usage
+
+Use `RStudio` or `R` environment in the terminal to execute the provided `R` script. You will need to install the dependent `R` packages that are used in the script.
